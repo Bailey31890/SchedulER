@@ -31,7 +31,9 @@
 // creating their profile.
 // ***************************************************************
 
-public class Login_GUI {
+import javafx.scene.layout.Pane;
+
+public class Login_GUI extends Pane{
 
 	public Settings_Page m_Settings_Page;
 

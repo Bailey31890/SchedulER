@@ -18,6 +18,7 @@
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
@@ -28,13 +29,11 @@ public class SchedulERlauncher extends Application{
 	//Initialize attributes
 	public int screen = 0;
 
-	//Initialize GUI elements
-	public Button switchScreen;
-	
 	//Initializes objects
-	private Login_GUI Login;
+	private Login_GUI login;
 	private Settings_Page userSettings;
-	private Suggest_Schedule buildSchedule;
+	private Dashboard dash;
+	//private Suggest_Schedule buildSchedule;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -44,44 +43,47 @@ public class SchedulERlauncher extends Application{
 		primaryStage.setTitle("SchedulER Application"); //defines stage
 
 		//creates objects
+		login = new Login_GUI();
+		dash = new Dashboard();
+		userSettings = new Settings_Page();
 
-		switchScreen.setOnAction(e -> {
-			//if statement allows for panes to switch 
-			if (screen == 0) {
+		//if statement allows for panes to switch 
+		if (screen == 0) {
 
-				//Scene vShowScene = new Scene(vShow, 1300, 800); //stage & scenes
+			// shows login page*******************************************************
+			Scene loginScene = new Scene(login, 400, 300); //stage & scenes
+			primaryStage.setScene(loginScene); //sets stage & shows
+			primaryStage.show();
 
-				// shows Login screen 
-				//primaryStage.setScene(vShowScene); //sets stage & shows
-				primaryStage.show();
+		} else if (screen == 1) {
 
-			} else if (screen == 1) {
+			// shows dashboard page*******************************************************
+			Scene dashScene = new Scene(dash, 400, 300); //stage & scenes
+			primaryStage.setScene(dashScene); //sets stage & shows
+			primaryStage.show();
+		} else if (screen == 2) {
 
-				//Scene RTscene = new Scene(RTtest, 1300, 800); //stage & scenes
-
-				// shows user settings screen
-				//primaryStage.setScene(RTscene); //sets stage & shows
-				primaryStage.show();
-			} else if (screen == 2) {
-
-				//Scene Sscene = new Scene(Stest, 1300, 800);
-
-				// SHOWS SPATIAL TEST *******************************************************
-				//primaryStage.setScene(Sscene); //sets stage & shows
-				primaryStage.show();
-			} else if (screen == 4) {
+			// shows settings page*******************************************************
+			Scene settings = new Scene(userSettings.getPane(), 400, 300);
+			primaryStage.setScene(settings); //sets stage & shows
+			primaryStage.show();
+			
+		} else if (screen == 3) {
 
 
-				//primaryStage.setScene(Vscene); //sets stage & shows
-				primaryStage.show();
-			} else if (screen == 5) {
+			//primaryStage.setScene(Vscene); //sets stage & shows
+			primaryStage.show();
+		} 
+	}
 
-				primaryStage.hide();
-
-				//primaryStage.setScene(SCENE NAME); //sets stage & shows
-				primaryStage.show();
-			}
-		});
+	public void switchScreens(int input) {
+		if (input == 1) {
+			screen = 1;
+		} else if (input == 2) {
+			screen = 2;
+		} else if (input == 3) {
+			screen = 3;
+		}
 	}
 
 	//launches code
