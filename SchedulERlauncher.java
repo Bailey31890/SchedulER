@@ -1,88 +1,110 @@
 // ***************************************************************
 // Names: Nathaniel Deen, Bailey Roberts, Jayson Tinsley, Liam Kehoe, Matthieu Privat
-// Last Updated: 2/20/2019
+// Last Updated: 3/6/2019
 // Version: 0.01
 //
 // SE 300, Section 1, Final Group Project Run File
 //
 // Class: SchedulERlauncher extends Application
 //
-// Attributes: 
+// Attributes: mainStage, userSettings, dash, dashScene, settings
 //
-// Methods: 
+// Methods: switchScreen(int), start(Stage)
 //
-// Description:
+// Description: This is the run file for the code
 // 
-//
 // ***************************************************************
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/**
+ * The class SchedulERlauncher functions as the run file and main platform for the code.  
+ *
+ *@author - Nathaniel Deen
+ */
 public class SchedulERlauncher extends Application{
 
 	//Initialize attributes
-	public int screen = 0;
+	public Stage mainStage;
 
-	//Initialize GUI elements
-	public Button switchScreen;
-	
 	//Initializes objects
-	private Login_GUI Login;
+	private Login_GUI login;
 	private Settings_Page userSettings;
-	private Suggest_Schedule buildSchedule;
+	private Dashboard dash;
+	public FileIO inOut;
+	//private Suggest_Schedule buildSchedule;
+	
+	//initializes scenes
+	private Scene dashScene, settings, loginScene;
 
-	@Override
+	/**
+	 * The start method runs immediately upon running the code. It initializes all GUI elements and runs initial file IO
+	 * 
+	 *@author - Nathaniel Deen
+	 *@param Stage which is used to show scenes of the GUI
+	 */
 	public void start(Stage primaryStage) throws Exception {
-
-		//initialize variables
-
-		primaryStage.setTitle("SchedulER Application"); //defines stage
-
+		
 		//creates objects
-
-		switchScreen.setOnAction(e -> {
-			//if statement allows for panes to switch 
-			if (screen == 0) {
-
-				//Scene vShowScene = new Scene(vShow, 1300, 800); //stage & scenes
-
-				// shows Login screen 
-				//primaryStage.setScene(vShowScene); //sets stage & shows
-				primaryStage.show();
-
-			} else if (screen == 1) {
-
-				//Scene RTscene = new Scene(RTtest, 1300, 800); //stage & scenes
-
-				// shows user settings screen
-				//primaryStage.setScene(RTscene); //sets stage & shows
-				primaryStage.show();
-			} else if (screen == 2) {
-
-				//Scene Sscene = new Scene(Stest, 1300, 800);
-
-				// SHOWS SPATIAL TEST *******************************************************
-				//primaryStage.setScene(Sscene); //sets stage & shows
-				primaryStage.show();
-			} else if (screen == 4) {
-
-
-				//primaryStage.setScene(Vscene); //sets stage & shows
-				primaryStage.show();
-			} else if (screen == 5) {
-
-				primaryStage.hide();
-
-				//primaryStage.setScene(SCENE NAME); //sets stage & shows
-				primaryStage.show();
-			}
-		});
+		inOut = new FileIO();
+		login = new Login_GUI(this, inOut);
+		dash = new Dashboard(this, inOut);		
+		userSettings = new Settings_Page(this, inOut);
+		mainStage = new Stage();
+		
+		mainStage.setTitle("SchedulER Application"); //defines stage
+		
+		//builds scenes
+		dashScene = new Scene(dash, 600, 500); 
+		settings = new Scene(userSettings.getPane(), 400, 300);
+		loginScene = new Scene(login, 400, 450);
+		
+		switchScreens(0);
 	}
 
-	//launches code
+	/**
+	 * This method takes in an integer value and updates the GUI scene to match the number
+	 *
+	 *@author - Nathaniel Deen
+	 * @param  integer value for the screen number
+	 * @see    Sets a different scene
+	 */
+	//method for switching screens
+	public void switchScreens(int input) {
+
+		//if statement allows for panes to switch 
+		if (input == 0) {
+
+			// shows login page*******************************************************			
+			mainStage.setScene(loginScene); //sets stage & shows
+			mainStage.show();
+
+		} else if (input == 1) {
+
+			// shows dashboard page******************************************************* 
+			mainStage.setScene(dashScene); //sets stage & shows
+			mainStage.show();
+			
+		} else if (input == 2) {
+
+			// shows settings page*******************************************************
+			mainStage.setScene(settings); //sets stage & shows
+			mainStage.show();
+
+		} else if (input == 3) {
+
+
+			//primaryStage.setScene(Vscene); //sets stage & shows
+			mainStage.show();
+		} 
+	}
+
+
+	/**
+	 * The main method launches the application
+	 * 
+	 *@author - Nathaniel Deen
+	 */
 	public static void main(String[] args) { launch(args); }}
